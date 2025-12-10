@@ -64,9 +64,7 @@ RUN python3 -m venv /server-env && \
     /server-env/bin/python3 -m pip install \
         -r /serving/requirements.txt
 
-# TODO(b/379159076) - Remove gcloud
-# Install gcloud CLI
-RUN apt-get install -y apt-transport-https curl gnupg
+
 
 # Clone python-certifi to meet MPL 2.0 License source code mirroring terms
 # RUN git clone https://github.com/certifi/python-certifi.git
