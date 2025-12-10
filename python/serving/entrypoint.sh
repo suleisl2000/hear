@@ -22,10 +22,20 @@
 set -e
 
 # Port for the TensorFlow Model Server REST API.
-export MODEL_REST_PORT=8600
+export MODEL_REST_PORT=${MODEL_REST_PORT:-8600}
+
+# HTTP port for the frontend server
+export AIP_HTTP_PORT=${AIP_HTTP_PORT:-8080}
+
+# Routes for the frontend server
+export AIP_HEALTH_ROUTE=${AIP_HEALTH_ROUTE:-/health}
+export AIP_PREDICT_ROUTE=${AIP_PREDICT_ROUTE:-/predict}
 
 # Local directory to store the model.
 export LOCAL_MODEL_PATH=/model/default
+
+# Set PYTHONPATH to include the root directory so Python can find the serving module
+export PYTHONPATH=/
 
 echo "Prediction container start, launching model server"
 
