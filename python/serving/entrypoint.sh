@@ -39,11 +39,11 @@ export PYTHONPATH=/
 
 echo "Prediction container start, launching model server"
 
-# Copy model from Google Cloud Storage (GCS) to local directory
+# Copy model from container's model directory to local directory
 mkdir -p "$LOCAL_MODEL_PATH/1"
-
-# TODO(b/379159076): Remove gcloud
-# gcloud storage cp "$AIP_STORAGE_URI/*" "$LOCAL_MODEL_PATH/1" --recursive
+echo "Copying model from /models/hear to $LOCAL_MODEL_PATH/1"
+cp -r /models/hear/* "$LOCAL_MODEL_PATH/1/"
+echo "Model copied successfully"
 
 /usr/bin/tensorflow_model_server \
     --port=8500 \
