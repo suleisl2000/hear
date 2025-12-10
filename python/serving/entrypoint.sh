@@ -33,19 +33,19 @@ echo "Prediction container start, launching model server"
 mkdir -p "$LOCAL_MODEL_PATH/1"
 
 # TODO(b/379159076): Remove gcloud
-gcloud storage cp "$AIP_STORAGE_URI/*" "$LOCAL_MODEL_PATH/1" --recursive
+# gcloud storage cp "$AIP_STORAGE_URI/*" "$LOCAL_MODEL_PATH/1" --recursive
 
 /usr/bin/tensorflow_model_server \
     --port=8500 \
     --rest_api_port="$MODEL_REST_PORT" \
     --model_name=default \
     --model_base_path="$LOCAL_MODEL_PATH" \
-    --xla_cpu_compilation_enabled=true &
+    --xla_cpu_compilation_enabled=true > /var/log/tensorflow_model_server.log 2>&1 &
 
 echo "Launching front end"
 
-/server-env/bin/python3.12 -m serving.server_gunicorn --alsologtostderr \
-    --verbosity=1 &
+/server-env/bin/python3 -m serving.server_gunicorn --alsologtostderr \
+    --verbosity=1 > /var/log/server_gunicorn.log 2>&1 &
 
 # Wait for any process to exit
 wait -n
